@@ -5,15 +5,27 @@ public class GameSystem {
     private int mode = 0;   //得知哪一個難度模式
     private int num[] = new int[80];    //題目出過與否 1：出過 0：沒出過
     
+
     public void start() {
         easy_mode();
     }
 
-    private void show(String A, int right_words, int words) {   //顯示目前猜題狀況
+    private void show(String A, int right_words[], int words[]) {   //顯示目前猜題狀況
         for(int i = 0; i < A.length(); i++) {
-            
+            if(A.charAt(i) == 32) {    //空白
+                System.out.print(" ");
+            }
+            else {
+                if((A.charAt(i) - 96 > 0) && (A.charAt(i) - 96 < 27)) {  
+                    if(words[A.charAt(i) - 96] == 1) {
+                        System.out.print((char)(A.charAt(i)));
+                    }    
+                    else {
+                        System.out.print("-");
+                    }
+                }
+            }
         }
-        System.out.println(A);
     }
 
     private void quess_words(String A) { //猜英文字母
@@ -64,7 +76,7 @@ public class GameSystem {
                     correct = 1;
                 }
             } 
-            show(A, right_words, words);;    //秀出答題狀況
+            show(A, right_words, words);    //秀出答題狀況
         }
     }
 
@@ -99,8 +111,12 @@ public class GameSystem {
             n = random_question(mode);  //選題
 
             Question q = new Question();    //創一個新題目
+            System.out.println();
+            System.out.println();
             System.out.println(q.read_Q(n));    //印出題目
             quess_words(q.read_A(n));   //開始猜答案
+            System.out.println();
+            System.out.println("恭喜答對了！");
         }
         medium_mode();
     }
@@ -114,8 +130,12 @@ public class GameSystem {
             n = random_question(mode);  //選題
 
             Question q = new Question();    //創一個新題目
+            System.out.println();
+            System.out.println();
             System.out.println(q.read_Q(n));    //印出題目
             quess_words(q.read_A(n));   //開始猜答案
+            System.out.println();
+            System.out.println("恭喜答對了！");
         }
         hard_mode();
     }
@@ -129,8 +149,12 @@ public class GameSystem {
             n = random_question(mode);  //選題
 
             Question q = new Question();    //創一個新題目
+            System.out.println();
+            System.out.println();
             System.out.println(q.read_Q(n));    //印出題目
             quess_words(q.read_A(n));   //開始猜答案
+            System.out.println();
+            System.out.println("恭喜答對了！");
         }
         expert_mode();
     }
@@ -144,8 +168,12 @@ public class GameSystem {
             n = random_question(mode);  //選題
 
             Question q = new Question();    //創一個新題目
+            System.out.println();
+            System.out.println();
             System.out.println(q.read_Q(n));    //印出題目
             quess_words(q.read_A(n));   //開始猜答案
+            System.out.println();
+            System.out.println("恭喜答對了！");
         }
     }
 }
