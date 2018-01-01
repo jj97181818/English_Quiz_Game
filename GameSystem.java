@@ -28,11 +28,12 @@ public class GameSystem {
         }
     }
 
-    private void quess_words(String A) { //猜英文字母
+    private int quess_words(String A) { //猜英文字母
         int words[] = new int[27];    //記住猜過的英文字母 1 ~ 26 對照 a ~ z
         int right_words[] = new int[27];    //題目用到的字母
         int correct = 0;
         char ans;
+        int life = 5; //生命條（一題猜錯五次失敗）
 
         for(int i = 0; i < 27; i++) {   //陣列初始化
             words[i] = 0;
@@ -50,7 +51,12 @@ public class GameSystem {
         while(correct == 0) {   //猜到對為止
             System.out.println();
             System.out.println();            
-            System.out.println("請輸入猜測的答案 a ~ z");
+            System.out.print("請輸入猜測的答案 a ~ z (生命：");
+            for(int i = 0; i < life; i++) {
+                System.out.print("💙 ");
+            }
+            System.out.println(")");
+
             Scanner scn = new Scanner(System.in);
             ans = scn.next().charAt(0);
 
@@ -58,15 +64,21 @@ public class GameSystem {
                 System.out.println("重複輸入！");
             }
             else {  //新的輸入
-                words[ans - 96] = 1;
+                words[ans - 96] = 1;    //紀錄猜的字母
+                
                 if(words[ans - 96] == right_words[ans - 96]) {
                     System.out.println("對的，有" + (char)ans + "這個字母！");
                 }
                 else {
+                    life--;
+                    words[ans - 96] = 0;
                     System.out.println("叭叭！答案中沒有這個字母喔！");
                 }
             }
-
+            
+            if(life == 0) { //沒有生命即停止猜字母
+                break;
+            }
             for(int k = 1; k < 27; k++) {   //判斷答對與否
                 if(words[k] != right_words[k]) {
                     correct = 0;
@@ -78,6 +90,7 @@ public class GameSystem {
             } 
             show(A, right_words, words);    //秀出答題狀況
         }
+        return life;        
     }
 
 
@@ -104,7 +117,7 @@ public class GameSystem {
 
 
     private void easy_mode() {   //簡單模式
-        int n = 0;
+        int n = 0, life = 0;
         mode = 0;
         System.out.println("簡單模式");
         for(int i = 0; i < 5; i++) {    //共 5 題
@@ -114,16 +127,24 @@ public class GameSystem {
             System.out.println();
             System.out.println();
             System.out.println(q.read_Q(n));    //印出題目
-            quess_words(q.read_A(n));   //開始猜答案
-            System.out.println();
-            System.out.println("恭喜答對了！");
+            life = quess_words(q.read_A(n));   //開始猜答案
+            if(life == 0) {
+                System.out.println();
+                System.out.println("沒有生命了！失敗💔 ");
+                Main re = new Main();
+                re.restart();
+            }
+            else {
+                System.out.println();
+                System.out.println("恭喜答對了！");
+            }
         }
         medium_mode();
     }
 
 
     private void medium_mode() {  //普通模式
-        int n = 0;
+        int n = 0, life = 0;
         mode = 1;
         System.out.println("普通模式");
         for(int i = 0; i < 5; i++) {    //共 5 題
@@ -133,16 +154,24 @@ public class GameSystem {
             System.out.println();
             System.out.println();
             System.out.println(q.read_Q(n));    //印出題目
-            quess_words(q.read_A(n));   //開始猜答案
-            System.out.println();
-            System.out.println("恭喜答對了！");
+            life = quess_words(q.read_A(n));   //開始猜答案
+            if(life == 0) {
+                System.out.println();
+                System.out.println("沒有生命了！失敗💔 ");
+                Main re = new Main();
+                re.restart();
+            }
+            else {
+                System.out.println();
+                System.out.println("恭喜答對了！");
+            }
         }
         hard_mode();
     }
 
 
     private void hard_mode() {  //困難模式
-        int n = 0;
+        int n = 0, life = 0;
         mode = 2;
         System.out.println("困難模式");
         for(int i = 0; i < 5; i++) {    //共 5 題
@@ -152,16 +181,24 @@ public class GameSystem {
             System.out.println();
             System.out.println();
             System.out.println(q.read_Q(n));    //印出題目
-            quess_words(q.read_A(n));   //開始猜答案
-            System.out.println();
-            System.out.println("恭喜答對了！");
+            life = quess_words(q.read_A(n));   //開始猜答案
+            if(life == 0) {
+                System.out.println();
+                System.out.println("沒有生命了！失敗💔 ");
+                Main re = new Main();
+                re.restart();
+            }
+            else {
+                System.out.println();
+                System.out.println("恭喜答對了！");
+            }
         }
         expert_mode();
     }
 
 
     private void expert_mode() {  //專家模式
-        int n = 0;
+        int n = 0, life = 0;
         mode = 3;
         System.out.println("專家模式");
         for(int i = 0; i < 5; i++) {    //共 5 題
@@ -171,9 +208,22 @@ public class GameSystem {
             System.out.println();
             System.out.println();
             System.out.println(q.read_Q(n));    //印出題目
-            quess_words(q.read_A(n));   //開始猜答案
-            System.out.println();
-            System.out.println("恭喜答對了！");
+            life = quess_words(q.read_A(n));   //開始猜答案
+            if(life == 0) {
+                System.out.println();
+                System.out.println("沒有生命了！失敗💔 ");
+                Main re = new Main();
+                re.restart();
+            }
+            else {
+                System.out.println();
+                System.out.println("恭喜答對了！");
+            }
         }
+        success();   
+    }
+
+    private void success(){ //完整破關
+        System.out.println("恭喜破關拉~~");
     }
 }
